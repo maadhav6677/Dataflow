@@ -6,7 +6,7 @@ import csv
 import sqlite3
 from pathlib import Path
 
-from .config import DB_PATH, REPORTS_DIR
+from .config import DB_PATH, END_DATE, RANDOM_SEED, REPORTS_DIR, START_DATE
 
 
 def _currency(value: float) -> str:
@@ -191,7 +191,18 @@ def export() -> None:
     top_five_opportunity = sum(0.3 * row[4] + 0.2 * row[6] for row in action_rows[:5])
     report = f"""# Executive decision memo
 
-> Analysis uses deterministic synthetic data. This is not Hyperpure internal data and the recommendations are diagnostic hypotheses, not causal claims.
+> Analysis uses deterministic synthetic demonstration data, represents no real company, and provides diagnostic hypotheses rather than causal claims.
+
+## Report context
+
+| Field | Value |
+|---|---|
+| Observation period | {START_DATE} through {END_DATE} |
+| Dataset | `synthetic_service_waste_control_tower` |
+| Generator seed | `{RANDOM_SEED}` |
+| Service grain | One order line, attributed to order date |
+| Inbound grain | One procurement receipt, attributed to expected date |
+| Currency | INR |
 
 ## Decision in one sentence
 
@@ -234,6 +245,15 @@ Recovering **30% of unfulfilled value plus 20% of waste cost** across the top fi
 - **Unfulfilled value:** ordered value minus delivered value. It is a demand-loss proxy, not booked revenue.
 - **Waste rate:** disposed units divided by accepted procurement units.
 - **Supplier acceptance fill:** received units less rejected units, divided by ordered procurement units.
+
+## Supporting artifacts
+
+- [Interactive dashboard](../docs/index.html)
+- [KPI snapshot](kpi_snapshot.csv)
+- [Prioritised action queue](action_queue.csv)
+- [Supplier scorecard](supplier_scorecard.csv)
+- [Data and metric dictionary](../docs/data_dictionary.md)
+- [Architecture and limitations](../docs/architecture.md)
 """
     report_path = REPORTS_DIR / "executive_summary.md"
     temp_path = report_path.with_suffix(".md.tmp")

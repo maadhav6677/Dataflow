@@ -82,14 +82,38 @@ class PipelineTest(unittest.TestCase):
         data = (DOCS_DIR / "data.js").read_text(encoding="utf-8")
         readme = (DOCS_DIR.parent / "README.md").read_text(encoding="utf-8")
         self.assertNotIn("https://cdn", index)
-        self.assertIn("Deterministic synthetic data", data)
+        self.assertIn("Deterministic synthetic demonstration data", data)
+        self.assertIn("window.CONTROL_TOWER_DATA=", data)
         self.assertTrue((REPORTS_DIR / "executive_summary.md").is_file())
         self.assertTrue((REPORTS_DIR / "action_queue.csv").is_file())
-        for filename in ("dashboard-overview.jpg", "dashboard-incident.jpg"):
+        for filename in (
+            "dashboard-overview.jpg",
+            "dashboard-diagnostics.jpg",
+            "dashboard-incident.jpg",
+        ):
             screenshot = DOCS_DIR / "assets" / filename
             self.assertTrue(screenshot.is_file())
             self.assertTrue(screenshot.read_bytes().startswith(b"\xff\xd8\xff"))
             self.assertIn(f"docs/assets/{filename}", readme)
+
+    def test_documentation_contract_is_present(self) -> None:
+        root = DOCS_DIR.parent
+        required_docs = (
+            root / "README.md",
+            root / "CONTRIBUTING.md",
+            root / "SECURITY.md",
+            DOCS_DIR / "architecture.md",
+            DOCS_DIR / "data_dictionary.md",
+            DOCS_DIR / "troubleshooting.md",
+        )
+        for path in required_docs:
+            self.assertTrue(path.is_file(), path.name)
+            self.assertGreater(len(path.read_text(encoding="utf-8")), 500, path.name)
+
+        report = (REPORTS_DIR / "executive_summary.md").read_text(encoding="utf-8")
+        self.assertIn("## Report context", report)
+        self.assertIn("## Supporting artifacts", report)
+        self.assertIn("../docs/data_dictionary.md", report)
 
 
 if __name__ == "__main__":

@@ -52,7 +52,7 @@ def export() -> dict[str, int]:
                 "title": "B2B Food Supply — Service & Waste Control Tower",
                 "period_start": START_DATE,
                 "period_end": END_DATE,
-                "source": "Deterministic synthetic data; no Hyperpure internal data",
+                "source": "Deterministic synthetic demonstration data; no real company records",
                 "currency": "INR",
                 "targets": {"line_otif": 95, "fill_rate": 98, "waste_rate": 1},
             },
@@ -78,7 +78,7 @@ def export() -> dict[str, int]:
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
     encoded = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
     # Assign to a global instead of fetch() so the dashboard works from file:// too.
-    output = "window.HYPERPURE_DATA=" + encoded.replace("</", "<\\/") + ";\n"
+    output = "window.CONTROL_TOWER_DATA=" + encoded.replace("</", "<\\/") + ";\n"
     data_path = DOCS_DIR / "data.js"
     temp_path = data_path.with_suffix(".js.tmp")
     temp_path.write_text(output, encoding="utf-8")

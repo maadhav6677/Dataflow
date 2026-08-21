@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  const raw = window.HYPERPURE_DATA;
+  const raw = window.CONTROL_TOWER_DATA;
   if (!raw) {
     document.body.innerHTML = '<p class="empty">Dashboard data is missing. Run <code>make dashboard</code>.</p>';
     return;

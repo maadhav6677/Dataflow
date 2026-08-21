@@ -475,7 +475,7 @@ def generate() -> dict[str, int]:
 
     counts = {filename: len(rows) for filename, (rows, _) in datasets.items()}
     manifest = {
-        "dataset": "synthetic_b2b_food_supply_ops_project",
+        "dataset": "synthetic_service_waste_control_tower",
         "version": 1,
         "seed": RANDOM_SEED,
         "period": {"start": START_DATE, "end": END_DATE},

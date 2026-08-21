@@ -1,6 +1,17 @@
 # Executive decision memo
 
-> Analysis uses deterministic synthetic data. This is not Hyperpure internal data and the recommendations are diagnostic hypotheses, not causal claims.
+> Analysis uses deterministic synthetic demonstration data, represents no real company, and provides diagnostic hypotheses rather than causal claims.
+
+## Report context
+
+| Field | Value |
+|---|---|
+| Observation period | 2026-01-01 through 2026-06-30 |
+| Dataset | `synthetic_service_waste_control_tower` |
+| Generator seed | `42` |
+| Service grain | One order line, attributed to order date |
+| Inbound grain | One procurement receipt, attributed to expected date |
+| Currency | INR |
 
 ## Decision in one sentence
 
@@ -43,3 +54,12 @@ Recovering **30% of unfulfilled value plus 20% of waste cost** across the top fi
 - **Unfulfilled value:** ordered value minus delivered value. It is a demand-loss proxy, not booked revenue.
 - **Waste rate:** disposed units divided by accepted procurement units.
 - **Supplier acceptance fill:** received units less rejected units, divided by ordered procurement units.
+
+## Supporting artifacts
+
+- [Interactive dashboard](../docs/index.html)
+- [KPI snapshot](kpi_snapshot.csv)
+- [Prioritised action queue](action_queue.csv)
+- [Supplier scorecard](supplier_scorecard.csv)
+- [Data and metric dictionary](../docs/data_dictionary.md)
+- [Architecture and limitations](../docs/architecture.md)

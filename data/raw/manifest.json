@@ -1,5 +1,5 @@
 {
-  "dataset": "synthetic_b2b_food_supply_ops_project",
+  "dataset": "synthetic_service_waste_control_tower",
   "version": 1,
   "seed": 42,
   "period": {

@@ -8,7 +8,7 @@
 ![Offline dashboard](https://img.shields.io/badge/dashboard-fully_offline-D86150)
 ![MIT License](https://img.shields.io/badge/license-MIT-1B2430)
 
-[Dashboard](docs/index.html) · [Decision memo](reports/executive_summary.md) · [Metric dictionary](docs/data_dictionary.md) · [Security boundary](SECURITY.md)
+[Dashboard](docs/index.html) · [Decision memo](reports/executive_summary.md) · [Architecture](docs/architecture.md) · [Data dictionary](docs/data_dictionary.md) · [Troubleshooting](docs/troubleshooting.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)
 
 ![Service and Waste Control Tower executive overview](docs/assets/dashboard-overview.jpg)
 
@@ -26,7 +26,7 @@ The included demo models six months of B2B food-supply operations:
 |---:|---:|---:|---:|---:|---:|---:|
 | 4 | 8 | 32 | 240 | 5,715 | 13,855 | 3,225 |
 
-> **Data boundary:** every business record is deterministic synthetic data generated inside this repository. The project is not affiliated with Hyperpure or Eternal and contains no private, scraped, customer, employee, or production data.
+> **Data boundary:** every business record is deterministic synthetic data generated inside this repository. The project is not affiliated with or representative of any real company and contains no private, scraped, customer, employee, or production data.
 
 ## What it does
 
@@ -96,7 +96,7 @@ python3 -m http.server 8000 --directory docs
 
 ```text
 Generated 23,259 deterministic synthetic rows across 8 CSV files.
-Validated and loaded 23,259 rows into hyperpure_ops.db.
+Validated and loaded 23,259 rows into control_tower.db.
 Exported dashboard data: order_lines=13,855, receipts=3,225, waste_groups=172.
 Exported executive memo, KPI snapshot, action queue, and supplier scorecard.
 ```
@@ -179,17 +179,18 @@ The 95% OTIF, 98% fill-rate, and 1% waste thresholds are illustrative operating 
 ```text
 .
 ├── data/raw/                  # Generated CSV inputs and committed manifest
-├── docs/                      # Offline dashboard, screenshots, and metric dictionary
+├── docs/                      # Dashboard, architecture, dictionary, troubleshooting, screenshots
 ├── reports/                   # Decision memo, KPI snapshot, and CSV action handoffs
 ├── sql/                       # Schema, analytical marts, and example analysis queries
 ├── src/                       # Generation, validation, warehouse, and export modules
 ├── tests/                     # End-to-end standard-library test suite
 ├── warehouse/                 # Rebuildable local SQLite database
+├── CONTRIBUTING.md            # Development workflow and change contracts
 ├── Makefile                   # Development and build commands
 └── SECURITY.md                # Data, privacy, and runtime boundaries
 ```
 
-Good entry points are [`docs/index.html`](docs/index.html) for the product, [`sql/03_analysis.sql`](sql/03_analysis.sql) for the analytical questions, and [`src/build_warehouse.py`](src/build_warehouse.py) for the data-quality workflow.
+Good entry points are [`docs/index.html`](docs/index.html) for the product, [`docs/architecture.md`](docs/architecture.md) for the system design, [`sql/03_analysis.sql`](sql/03_analysis.sql) for the analytical questions, and [`src/build_warehouse.py`](src/build_warehouse.py) for the data-quality workflow.
 
 ## Scope and limitations
 
