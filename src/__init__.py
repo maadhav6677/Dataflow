@@ -1,1 +1,1 @@
-"""Hyperpure-inspired operations analytics case study."""
+"""B2B food-supply operations analytics project."""

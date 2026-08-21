@@ -1,7 +1,7 @@
 """Generate a deterministic, synthetic B2B food-supply dataset.
 
 No scraped, customer, employee, or confidential company data is used. The
-patterns are intentionally planted so the case study has realistic analytical
+patterns are intentionally planted so the project has realistic analytical
 findings instead of random noise.
 """
 
@@ -475,7 +475,7 @@ def generate() -> dict[str, int]:
 
     counts = {filename: len(rows) for filename, (rows, _) in datasets.items()}
     manifest = {
-        "dataset": "synthetic_hyperpure_ops_case_study",
+        "dataset": "synthetic_b2b_food_supply_ops_project",
         "version": 1,
         "seed": RANDOM_SEED,
         "period": {"start": START_DATE, "end": END_DATE},

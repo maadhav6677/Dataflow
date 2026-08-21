@@ -1,6 +1,6 @@
 # Executive decision memo
 
-> Portfolio case study using deterministic synthetic data. This is not Hyperpure internal data and the recommendations are diagnostic hypotheses, not causal claims.
+> Analysis uses deterministic synthetic data. This is not Hyperpure internal data and the recommendations are diagnostic hypotheses, not causal claims.
 
 ## Decision in one sentence
 

@@ -1,10 +1,10 @@
 # B2B Food Supply — Service & Waste Control Tower
 
-An end-to-end analytics case study that answers one practical question:
+An end-to-end operations analytics project that answers one practical question:
 
 > **Where are fulfilment failures and inventory losses concentrated, and what should an operations team fix first?**
 
-[Open the interactive dashboard](docs/index.html) · [Read the decision memo](reports/executive_summary.md) · [Use the interview guide](docs/interview_guide.md)
+[Open the interactive dashboard](docs/index.html) · [Read the decision memo](reports/executive_summary.md) · [Review the metric dictionary](docs/data_dictionary.md)
 
 > **Data boundary:** every business record in this repository is deterministic synthetic data. This project is not affiliated with Hyperpure or Eternal and uses no internal, personal, or scraped operational data.
 
@@ -35,13 +35,38 @@ The network average hides three sharp incidents:
 
 Pune Staples, meanwhile, has the largest recurring unfulfilled-value pool at ₹44.8 K. That distinction is deliberate: the lowest percentage and the largest financial opportunity are not always the same.
 
-## What the project demonstrates
+## Dashboard
+
+### Network overview
+
+![Network overview showing the dashboard header, filters, and executive KPI scorecard](docs/assets/dashboard-overview.jpg)
+
+### Warehouse-category incident drill-down
+
+![Bengaluru Fresh Produce drill-down showing the filtered executive KPI scorecard](docs/assets/dashboard-incident.jpg)
+
+The dashboard is fully offline and every KPI, visual, recommendation, and supplier score responds to the selected date, warehouse, and category filters.
+
+## Technical scope
 
 - **SQL:** fact/dimension joins, reusable views, CTEs, window functions, KPI contracts, Pareto analysis, and a ranked action mart.
 - **Python:** deterministic data generation, CSV contracts, business-rule validation, atomic builds, and report exports.
 - **Analytics:** separates service, availability, margin, supplier quality, and waste; compares incident windows with baselines; avoids claiming correlation as causation.
-- **Communication:** interactive dashboard, one-page decision memo, action queue, supplier watchlist, and a concise recruiter narrative.
+- **Reporting:** interactive dashboard, one-page decision memo, action queue, and supplier watchlist.
 - **Engineering hygiene:** no runtime dependencies, no secrets, no external dashboard scripts, read-only CI permissions, tests, and explicit synthetic-data labelling.
+
+## Technology stack
+
+| Layer | Technology | Role in the project |
+|---|---|---|
+| Data generation and validation | Python 3.11+ standard library | Generates deterministic CSV data, enforces data contracts, validates business rules, and exports reports |
+| Analytical database | SQLite | Stores the relational model, applies constraints and indexes, and provides a portable local warehouse |
+| Transformation and analysis | SQL | Builds reusable analytical views and marts using joins, CTEs, aggregations, and window functions |
+| Dashboard | HTML5, CSS3, Vanilla JavaScript, SVG | Provides offline filters, KPI scorecards, charts, diagnostics, and action tables without external libraries |
+| Testing | Python `unittest` | Checks reproducibility, referential integrity, metric contracts, incident detection, and output safety |
+| Workflow automation | GNU Make | Runs data generation, warehouse builds, dashboard exports, reports, tests, and cleanup |
+| Continuous integration | GitHub Actions | Rebuilds and tests the project and verifies that committed analytical outputs are reproducible |
+| Version control | Git | Tracks source code, SQL, documentation, generated reports, and dashboard assets |
 
 ## Workflow
 
@@ -87,7 +112,7 @@ Useful commands:
 ```text
 .
 ├── data/raw/                  # Generated CSV inputs (git-ignored)
-├── docs/                      # Offline dashboard, metric dictionary, interview guide
+├── docs/                      # Offline dashboard and metric dictionary
 ├── reports/                   # Decision memo and CSV handoffs
 ├── sql/                       # Schema, marts, and analyst-facing SQL queries
 ├── src/                       # Generation, validation, warehouse, and export code
@@ -113,16 +138,6 @@ Start with these files:
 - **Acceptance fill** is received units minus rejected units, divided by ordered procurement units.
 
 The 95% OTIF, 98% fill-rate, and 1% waste thresholds are illustrative working benchmarks. They are not claimed Hyperpure targets. Full definitions are in the [data dictionary](docs/data_dictionary.md).
-
-## Explain it in an interview
-
-“Restaurants need reliable supply, but pushing inventory too high can create waste. I built a six-month synthetic operations dataset, validated it in Python, modelled it in SQLite, and used SQL to connect customer service failures with warehouse, category, supplier, and waste signals. The network average was 89.5% line OTIF, but incident-window comparisons exposed much sharper gaps in Bengaluru produce, Mumbai frozen foods, and Pune dairy. I ranked the next investigations by service and cash impact, while clearly treating recommendations as hypotheses rather than causal proof.”
-
-The [interview guide](docs/interview_guide.md) includes likely follow-up questions, honest limitations, and a resume bullet.
-
-## Resume bullet
-
-> Built a reproducible B2B food-supply analytics control tower using Python, SQL, SQLite, and JavaScript; modelled 23K+ synthetic order/procurement records, defined OTIF/fill/waste KPIs, detected warehouse-category incidents, and ranked service recovery opportunities by operational and financial impact.
 
 ## Scope and limitations
 

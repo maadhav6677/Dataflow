@@ -191,7 +191,7 @@ def export() -> None:
     top_five_opportunity = sum(0.3 * row[4] + 0.2 * row[6] for row in action_rows[:5])
     report = f"""# Executive decision memo
 
-> Portfolio case study using deterministic synthetic data. This is not Hyperpure internal data and the recommendations are diagnostic hypotheses, not causal claims.
+> Analysis uses deterministic synthetic data. This is not Hyperpure internal data and the recommendations are diagnostic hypotheses, not causal claims.
 
 ## Decision in one sentence
 

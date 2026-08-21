@@ -77,13 +77,19 @@ class PipelineTest(unittest.TestCase):
                 ).fetchone()[0]
                 self.assertGreater(baseline - incident, 15, f"{city} × {category}")
 
-    def test_portfolio_outputs_are_safe_and_present(self) -> None:
+    def test_published_outputs_are_safe_and_present(self) -> None:
         index = (DOCS_DIR / "index.html").read_text(encoding="utf-8")
         data = (DOCS_DIR / "data.js").read_text(encoding="utf-8")
+        readme = (DOCS_DIR.parent / "README.md").read_text(encoding="utf-8")
         self.assertNotIn("https://cdn", index)
         self.assertIn("Deterministic synthetic data", data)
         self.assertTrue((REPORTS_DIR / "executive_summary.md").is_file())
         self.assertTrue((REPORTS_DIR / "action_queue.csv").is_file())
+        for filename in ("dashboard-overview.jpg", "dashboard-incident.jpg"):
+            screenshot = DOCS_DIR / "assets" / filename
+            self.assertTrue(screenshot.is_file())
+            self.assertTrue(screenshot.read_bytes().startswith(b"\xff\xd8\xff"))
+            self.assertIn(f"docs/assets/{filename}", readme)
 
 
 if __name__ == "__main__":
