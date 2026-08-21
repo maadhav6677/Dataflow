@@ -1,0 +1,11 @@
+metric,value,definition
+orders,5715,Distinct orders
+buyers,240,Distinct synthetic customers
+order_lines,13855,Order-line analysis grain
+delivered_revenue_inr,13774628.04,Fulfilled quantity × selling price
+line_otif_pct,89.47,On time and fulfilled in full / order lines
+unit_fill_rate_pct,96.30,Fulfilled units / ordered units
+gross_margin_pct,17.60,Gross profit / delivered revenue
+unfulfilled_value_inr,475607.46,Ordered value − delivered value
+waste_rate_pct,0.27,Waste units / accepted procurement units
+waste_cost_inr,181077.39,Disposed units × procurement unit cost

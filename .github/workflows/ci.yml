@@ -1,0 +1,22 @@
+name: pipeline-check
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Rebuild analytics assets and run tests
+        run: make check
+      - name: Verify committed outputs are reproducible
+        run: git diff --exit-code -- data/raw/manifest.json docs/data.js reports/

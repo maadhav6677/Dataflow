@@ -1,0 +1,33 @@
+city,category,line_otif_pct,fill_rate_pct,unfulfilled_value_inr,waste_rate_pct,waste_cost_inr,top_failure_reason,recommended_action,illustrative_protected_value_inr
+Pune,Staples,87.90,95.54,44785.05,0.10,10606.81,Stockout,Revisit safety stock and reorder-point assumptions,15556.88
+Bengaluru,Staples,91.18,96.43,28521.20,0.08,16424.36,Supplier delay,Tighten supplier SLA and validate a backup source,11841.23
+Mumbai,Dairy,88.69,96.09,22373.10,0.68,13302.26,Stockout,Revisit safety stock and reorder-point assumptions,9372.38
+Mumbai,Staples,89.44,95.41,34841.95,0.00,0.00,Capacity constraint,Rebalance picking and dispatch capacity,10452.58
+Delhi NCR,Staples,93.84,97.50,24376.45,0.06,11461.16,Stockout,Revisit safety stock and reorder-point assumptions,9605.17
+Pune,Dairy,87.66,95.54,24230.38,0.42,8502.03,Quality rejection,Increase inbound QC and review supplier corrective action,8969.52
+Bengaluru,Dairy,88.07,95.30,29710.22,0.19,2556.92,Supplier delay,Tighten supplier SLA and validate a backup source,9424.45
+Bengaluru,Chicken & Eggs,90.17,96.90,12587.50,0.90,19287.15,Stockout,Revisit safety stock and reorder-point assumptions,7633.68
+Pune,Chicken & Eggs,88.17,96.36,16284.22,0.43,10587.86,Supplier delay,Tighten supplier SLA and validate a backup source,7002.84
+Delhi NCR,Chicken & Eggs,92.31,97.37,11382.40,0.55,12511.47,Stockout,Revisit safety stock and reorder-point assumptions,5917.01
+Mumbai,Frozen Foods,86.17,97.00,13557.29,0.26,7962.55,Cold-chain exception,Audit cold-chain handoffs and temperature exceptions,5659.70
+Mumbai,Chicken & Eggs,90.58,97.16,11904.28,0.60,10664.30,Capacity constraint,Rebalance picking and dispatch capacity,5704.14
+Pune,Frozen Foods,90.18,96.96,15538.17,0.17,3093.96,Stockout,Revisit safety stock and reorder-point assumptions,5280.24
+Delhi NCR,Dairy,93.83,97.71,13875.29,0.26,5629.68,Capacity constraint,Rebalance picking and dispatch capacity,5288.52
+Delhi NCR,Cleaning & Consumables,94.51,97.95,8110.25,0.26,9840.27,Stockout,Revisit safety stock and reorder-point assumptions,4401.13
+Bengaluru,Frozen Foods,87.74,97.10,14142.17,0.15,1789.86,Supplier delay,Tighten supplier SLA and validate a backup source,4600.62
+Delhi NCR,Frozen Foods,92.18,97.10,13643.75,0.08,2399.94,Stockout,Revisit safety stock and reorder-point assumptions,4573.11
+Pune,Sauces & Seasoning,88.94,97.59,10759.01,0.14,3964.49,Capacity constraint,Rebalance picking and dispatch capacity,4020.60
+Mumbai,Sauces & Seasoning,88.19,96.86,11240.25,0.06,2404.63,Stockout,Revisit safety stock and reorder-point assumptions,3853.00
+Delhi NCR,Sauces & Seasoning,92.71,96.60,13581.78,0.06,1139.88,Stockout,Revisit safety stock and reorder-point assumptions,4302.51
+Delhi NCR,Packaging,92.42,95.26,12685.93,0.05,1691.54,Capacity constraint,Rebalance picking and dispatch capacity,4144.09
+Bengaluru,Fresh Produce,83.76,93.12,7353.11,1.15,4776.29,Supplier delay,Review FEFO rotation and category-level demand forecast,3161.19
+Bengaluru,Sauces & Seasoning,91.28,97.43,10249.86,0.08,2341.71,Supplier delay,Tighten supplier SLA and validate a backup source,3543.30
+Pune,Packaging,88.08,95.70,11323.90,0.00,0.00,Supplier delay,Tighten supplier SLA and validate a backup source,3397.17
+Mumbai,Cleaning & Consumables,90.98,97.16,9126.95,0.14,2537.23,Stockout,Revisit safety stock and reorder-point assumptions,3245.53
+Mumbai,Packaging,89.32,96.79,8155.60,0.13,2958.15,Capacity constraint,Rebalance picking and dispatch capacity,3038.31
+Bengaluru,Cleaning & Consumables,90.30,98.04,4346.60,0.31,6895.44,Supplier delay,Tighten supplier SLA and validate a backup source,2683.07
+Bengaluru,Packaging,91.24,96.17,9857.67,0.00,0.00,Supplier delay,Tighten supplier SLA and validate a backup source,2957.30
+Mumbai,Fresh Produce,85.99,94.10,6692.58,0.49,1796.30,Stockout,Revisit safety stock and reorder-point assumptions,2367.03
+Pune,Cleaning & Consumables,88.57,97.73,7642.95,0.10,1357.56,Supplier delay,Tighten supplier SLA and validate a backup source,2564.40
+Delhi NCR,Fresh Produce,89.36,94.78,7632.32,0.27,886.36,Stockout,Revisit safety stock and reorder-point assumptions,2466.97
+Pune,Fresh Produce,86.92,95.87,5095.28,0.47,1707.23,Supplier delay,Tighten supplier SLA and validate a backup source,1870.03

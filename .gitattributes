@@ -1,0 +1,4 @@
+* text=auto eol=lf
+*.csv text eol=lf
+docs/data.js linguist-generated=true
+reports/*.csv linguist-generated=true

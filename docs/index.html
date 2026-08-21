@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive synthetic B2B food-supply operations analytics case study.">
+  <title>Service &amp; Waste Control Tower</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__inner">
+      <div>
+        <p class="eyebrow">B2B FOOD SUPPLY ANALYTICS · SYNTHETIC CASE STUDY</p>
+        <h1>Service &amp; Waste<br><span>Control Tower</span></h1>
+        <p class="hero__copy">Find the operational gaps that hurt restaurant availability, then rank the actions by customer and cash impact.</p>
+      </div>
+      <div class="hero__status" aria-label="Dashboard status">
+        <span class="status-dot"></span>
+        <div><strong>Decision view</strong><small>Jan–Jun 2026 · 4 warehouses</small></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="filters panel" aria-label="Dashboard filters">
+      <div class="filter-heading">
+        <span class="section-number">01</span>
+        <div><strong>Scope the question</strong><small>Every KPI and visual responds to these filters</small></div>
+      </div>
+      <label>From<input id="start-date" type="date" value="2026-01-01"></label>
+      <label>To<input id="end-date" type="date" value="2026-06-30"></label>
+      <label>Warehouse<select id="city-filter"><option value="All">All warehouses</option></select></label>
+      <label>Category<select id="category-filter"><option value="All">All categories</option></select></label>
+      <button id="reset-filters" type="button">Reset</button>
+    </section>
+
+    <section class="kpi-section" aria-labelledby="scorecard-title">
+      <div class="section-title">
+        <div><span class="section-number">02</span><h2 id="scorecard-title">Executive scorecard</h2></div>
+        <p id="scope-label">All warehouses · All categories</p>
+      </div>
+      <div class="kpi-grid">
+        <article class="kpi-card kpi-card--dark"><span>Delivered revenue</span><strong id="kpi-revenue">—</strong><small id="kpi-revenue-note">—</small></article>
+        <article class="kpi-card"><span>Line OTIF <i data-tip="Share of order lines delivered on or before promise date and fulfilled in full.">?</i></span><strong id="kpi-otif">—</strong><small id="kpi-otif-note">Target 95%</small></article>
+        <article class="kpi-card"><span>Unit fill rate <i data-tip="Fulfilled units divided by ordered units.">?</i></span><strong id="kpi-fill">—</strong><small id="kpi-fill-note">Target 98%</small></article>
+        <article class="kpi-card"><span>Gross margin</span><strong id="kpi-margin">—</strong><small id="kpi-margin-note">On delivered value</small></article>
+        <article class="kpi-card kpi-card--risk"><span>Unfulfilled value <i data-tip="Value of ordered units not fulfilled. This is a demand-loss proxy, not recognised revenue.">?</i></span><strong id="kpi-unfulfilled">—</strong><small id="kpi-unfulfilled-note">—</small></article>
+        <article class="kpi-card"><span>Waste rate <i data-tip="Wasted units divided by accepted procurement units.">?</i></span><strong id="kpi-waste">—</strong><small id="kpi-waste-note">Guardrail 1.0%</small></article>
+      </div>
+    </section>
+
+    <section class="decision-grid">
+      <article class="panel chart-panel chart-panel--wide">
+        <div class="panel-heading">
+          <div><span class="tag">TREND</span><h3>Are service levels recovering?</h3></div>
+          <div class="legend"><span><i class="dot dot--red"></i>Line OTIF</span><span><i class="dot dot--blue"></i>Fill rate</span></div>
+        </div>
+        <div id="trend-chart" class="chart" role="img" aria-label="Weekly line OTIF and fill rate trend"></div>
+      </article>
+
+      <article class="panel chart-panel">
+        <div class="panel-heading"><div><span class="tag">COMPARE</span><h3 id="performance-title">Warehouse performance</h3></div></div>
+        <div id="performance-chart" class="bar-list"></div>
+      </article>
+
+      <article class="panel chart-panel">
+        <div class="panel-heading"><div><span class="tag">DIAGNOSE</span><h3>Why OTIF fails</h3></div></div>
+        <div id="reason-chart" class="bar-list bar-list--risk"></div>
+      </article>
+    </section>
+
+    <section class="panel insight-panel">
+      <div class="insight-panel__heading"><span class="section-number">03</span><div><strong>What the analyst would say</strong><small>Auto-generated from the current filter selection</small></div></div>
+      <div id="insight-list" class="insight-list"></div>
+      <div class="opportunity"><span>Illustrative protected value</span><strong id="opportunity-value">—</strong><small>30% of unfulfilled value + 20% of waste cost across the top five gaps</small></div>
+    </section>
+
+    <section class="table-section" aria-labelledby="action-title">
+      <div class="section-title">
+        <div><span class="section-number">04</span><h2 id="action-title">Prioritised action queue</h2></div>
+        <p>Rule-based recommendations · not a causal model</p>
+      </div>
+      <div class="panel table-wrap">
+        <table>
+          <thead><tr><th>Priority</th><th>Warehouse × category</th><th>Line OTIF</th><th>Fill rate</th><th>Unfulfilled</th><th>Waste</th><th>Recommended next move</th></tr></thead>
+          <tbody id="action-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="table-section" aria-labelledby="supplier-title">
+      <div class="section-title">
+        <div><span class="section-number">05</span><h2 id="supplier-title">Supplier watchlist</h2></div>
+        <p>Lowest composite reliability first</p>
+      </div>
+      <div class="panel table-wrap">
+        <table>
+          <thead><tr><th>Supplier</th><th>Category</th><th>Receipts</th><th>On-time</th><th>Acceptance fill</th><th>Rejected cost</th><th>Status</th></tr></thead>
+          <tbody id="supplier-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="method panel">
+      <div><span class="tag">METHOD</span><h3>Built for a decision, not for decoration.</h3></div>
+      <div class="method__grid">
+        <p><strong>Question</strong>Where are service failures and avoidable inventory loss concentrated?</p>
+        <p><strong>Grain</strong>Order line for service; procurement receipt for supplier reliability.</p>
+        <p><strong>Metric contract</strong>OTIF = on time and fulfilled in full. Waste = units disposed / accepted units.</p>
+        <p><strong>Data boundary</strong>100% deterministic synthetic data. No private or scraped company records.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>Portfolio case study · Python + SQL + SQLite + Vanilla JS</span><span id="footer-source">Synthetic data</span></footer>
+  <script src="data.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

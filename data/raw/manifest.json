@@ -1,0 +1,21 @@
+{
+  "dataset": "synthetic_hyperpure_ops_case_study",
+  "version": 1,
+  "seed": 42,
+  "period": {
+    "start": "2026-01-01",
+    "end": "2026-06-30"
+  },
+  "synthetic": true,
+  "contains_personal_data": false,
+  "row_counts": {
+    "warehouses.csv": 4,
+    "suppliers.csv": 16,
+    "products.csv": 32,
+    "customers.csv": 240,
+    "orders.csv": 5715,
+    "order_items.csv": 13855,
+    "procurement_receipts.csv": 3225,
+    "waste_events.csv": 172
+  }
+}

@@ -1,0 +1,22 @@
+# Local Python state
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.coverage
+
+# Rebuildable data artifacts
+warehouse/*.db
+warehouse/*.db-*
+data/raw/*.csv
+data/processed/*.csv
+
+# OS / editor noise
+.DS_Store
+.idea/
+.vscode/
+
+# Keep directory placeholders
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!warehouse/.gitkeep

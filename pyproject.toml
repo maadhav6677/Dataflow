@@ -1,0 +1,10 @@
+[project]
+name = "hyperpure-ops-analytics"
+version = "1.0.0"
+description = "A synthetic B2B food-supply operations analytics case study."
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
