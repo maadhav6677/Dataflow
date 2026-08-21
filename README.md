@@ -1,94 +1,90 @@
-# B2B Food Supply — Service & Waste Control Tower
+# Service & Waste Control Tower
 
-An end-to-end operations analytics project that answers one practical question:
+> A local-first operations analytics product for B2B food-supply teams. Monitor fulfilment, diagnose service failures, quantify inventory loss, and turn warehouse-level problems into a ranked action plan.
 
-> **Where are fulfilment failures and inventory losses concentrated, and what should an operations team fix first?**
+![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-analytics_warehouse-003B57?logo=sqlite&logoColor=white)
+![Zero runtime dependencies](https://img.shields.io/badge/runtime_dependencies-0-2E7D32)
+![Offline dashboard](https://img.shields.io/badge/dashboard-fully_offline-D86150)
+![MIT License](https://img.shields.io/badge/license-MIT-1B2430)
 
-[Open the interactive dashboard](docs/index.html) · [Read the decision memo](reports/executive_summary.md) · [Review the metric dictionary](docs/data_dictionary.md)
+[Dashboard](docs/index.html) · [Decision memo](reports/executive_summary.md) · [Metric dictionary](docs/data_dictionary.md) · [Security boundary](SECURITY.md)
 
-> **Data boundary:** every business record in this repository is deterministic synthetic data. This project is not affiliated with Hyperpure or Eternal and uses no internal, personal, or scraped operational data.
+![Service and Waste Control Tower executive overview](docs/assets/dashboard-overview.jpg)
 
-## Why this problem fits Hyperpure
+## What this project is
 
-Hyperpure describes itself as Eternal's B2B food-supply platform, with temperature-controlled logistics, 100,000+ outlets served in FY25, and 11 warehouses across India. Its public site emphasises predictable supply, fewer stockouts, reduced wastage, and reliable deliveries. Eternal's FY26 annual report says core restaurant supplies grew 38% year on year while the business moved into quarterly Adjusted EBITDA profitability. Together, those signals make **service reliability with cost discipline** a credible analytics problem—not a generic sales dashboard.
+The Service & Waste Control Tower is an end-to-end decision-support product for fulfilment, procurement, warehouse, quality, and category teams. It answers one operational question:
 
-Sources: [Hyperpure business overview](https://www.eternal.com/our-businesses/hyperpure/), [Hyperpure public website](https://www.hyperpure.com/), and [Eternal FY26 Annual Report](https://b.zmtcdn.com/investor-relations/Eternal_Annual_Report_2025-26.pdf).
+> **Where are service failures and inventory losses concentrated, what is their financial impact, and what should the team investigate first?**
 
-## Executive readout
+It is more than a dashboard mock-up. The repository contains the complete analytical workflow: deterministic source-data generation, schema and business-rule validation, a relational SQLite warehouse, SQL marts, an interactive browser dashboard, CSV handoffs, an executive decision memo, and automated tests.
 
-The six-month synthetic network contains **5,715 orders, 13,855 order lines, 3,225 inbound receipts, and 240 buyers** across Delhi NCR, Bengaluru, Mumbai, and Pune.
+The included demo models six months of B2B food-supply operations:
 
-| KPI | Result | Interpretation |
-|---|---:|---|
-| Delivered revenue | ₹1.38 Cr | Fulfilled value in the analytical model |
-| Line OTIF | 89.5% | 5.5 percentage points below the illustrative 95% target |
-| Unit fill rate | 96.3% | Availability is better than OTIF, so timing also matters |
-| Unfulfilled value | ₹4.76 L | 3.3% of ordered value |
-| Gross margin | 17.6% | Service recovery must remain margin-aware |
-| Waste rate | 0.27% | ₹1.81 L at procurement cost |
+| Warehouses | Categories | SKUs | Buyers | Orders | Order lines | Inbound receipts |
+|---:|---:|---:|---:|---:|---:|---:|
+| 4 | 8 | 32 | 240 | 5,715 | 13,855 | 3,225 |
 
-The network average hides three sharp incidents:
+> **Data boundary:** every business record is deterministic synthetic data generated inside this repository. The project is not affiliated with Hyperpure or Eternal and contains no private, scraped, customer, employee, or production data.
 
-- **Bengaluru × Fresh Produce:** line OTIF fell from 92.2% to 56.5% during a four-week supplier-delay pattern.
-- **Mumbai × Frozen Foods:** line OTIF fell from 94.9% to 62.0% during a cold-chain-shaped incident.
-- **Pune × Dairy:** line OTIF fell from 90.3% to 65.3% during an inbound-quality pattern.
+## What it does
 
-Pune Staples, meanwhile, has the largest recurring unfulfilled-value pool at ₹44.8 K. That distinction is deliberate: the lowest percentage and the largest financial opportunity are not always the same.
+| Capability | What the product provides |
+|---|---|
+| Monitor service health | Tracks delivered revenue, line OTIF, unit fill rate, gross margin, unfulfilled value, and waste rate |
+| Slice the operation | Filters every KPI, chart, insight, and table by date, warehouse, and product category |
+| Diagnose failures | Compares weekly trends, warehouse performance, failure reasons, stockouts, delays, quality rejections, and cold-chain exceptions |
+| Prioritise work | Ranks warehouse × category gaps using service performance, unfulfilled value, and waste cost |
+| Review suppliers | Scores inbound reliability using on-time receipts, acceptance fill, and rejected cost |
+| Support decisions | Generates plain-language insights, recommended next actions, a decision memo, and CSV handoffs |
+| Reproduce results | Rebuilds the same dataset and outputs from seed `42`, with no third-party Python packages or network calls |
 
-## Dashboard
+The current synthetic network surfaces three deliberate incident patterns—Bengaluru Fresh Produce, Mumbai Frozen Foods, and Pune Dairy—while also showing why the worst percentage gap is not always the largest financial opportunity.
 
-### Network overview
+## Product tour
 
-![Network overview showing the dashboard header, filters, and executive KPI scorecard](docs/assets/dashboard-overview.jpg)
+### 1. Executive control-tower view
 
-### Warehouse-category incident drill-down
+The overview shown above starts with the health of the network: revenue fulfilled, OTIF, fill rate, margin, unfulfilled demand, and waste. All six KPIs respond to the selected operating scope.
 
-![Bengaluru Fresh Produce drill-down showing the filtered executive KPI scorecard](docs/assets/dashboard-incident.jpg)
+### 2. Operational diagnostics
 
-The dashboard is fully offline and every KPI, visual, recommendation, and supplier score responds to the selected date, warehouse, and category filters.
+Use the weekly service trend to separate isolated incidents from persistent gaps, compare warehouses, and see which failure modes account for the most affected lines and value.
 
-## Technical scope
+![Weekly service trend, warehouse comparison, and OTIF failure analysis](docs/assets/dashboard-diagnostics.jpg)
 
-- **SQL:** fact/dimension joins, reusable views, CTEs, window functions, KPI contracts, Pareto analysis, and a ranked action mart.
-- **Python:** deterministic data generation, CSV contracts, business-rule validation, atomic builds, and report exports.
-- **Analytics:** separates service, availability, margin, supplier quality, and waste; compares incident windows with baselines; avoids claiming correlation as causation.
-- **Reporting:** interactive dashboard, one-page decision memo, action queue, and supplier watchlist.
-- **Engineering hygiene:** no runtime dependencies, no secrets, no external dashboard scripts, read-only CI permissions, tests, and explicit synthetic-data labelling.
+### 3. Warehouse × category drill-down
 
-## Technology stack
+Narrow the same decision view to a specific operating cell. This example exposes the Bengaluru × Fresh Produce incident: 83.8% line OTIF, 93.1% fill rate, and a waste rate above the illustrative guardrail.
 
-| Layer | Technology | Role in the project |
-|---|---|---|
-| Data generation and validation | Python 3.11+ standard library | Generates deterministic CSV data, enforces data contracts, validates business rules, and exports reports |
-| Analytical database | SQLite | Stores the relational model, applies constraints and indexes, and provides a portable local warehouse |
-| Transformation and analysis | SQL | Builds reusable analytical views and marts using joins, CTEs, aggregations, and window functions |
-| Dashboard | HTML5, CSS3, Vanilla JavaScript, SVG | Provides offline filters, KPI scorecards, charts, diagnostics, and action tables without external libraries |
-| Testing | Python `unittest` | Checks reproducibility, referential integrity, metric contracts, incident detection, and output safety |
-| Workflow automation | GNU Make | Runs data generation, warehouse builds, dashboard exports, reports, tests, and cleanup |
-| Continuous integration | GitHub Actions | Rebuilds and tests the project and verifies that committed analytical outputs are reproducible |
-| Version control | Git | Tracks source code, SQL, documentation, generated reports, and dashboard assets |
+![Bengaluru Fresh Produce incident drill-down](docs/assets/dashboard-incident.jpg)
 
-## Workflow
+Below the charts, the dashboard continues into an auto-generated analyst readout, a prioritised action queue, and a supplier watchlist.
 
-```text
-Synthetic CSV sources
-        │
-        ▼
-Python contracts + quality checks
-        │  schema, ranges, dates, relationships, business rules
-        ▼
-SQLite analytics warehouse
-        │
-        ├── SQL marts ──► executive memo + CSV action handoffs
-        │
-        └── compact extract ──► offline interactive dashboard
+## Run locally
+
+### Requirements
+
+- Python 3.11 or newer
+- GNU Make
+- Any modern browser
+
+There is no virtual environment to create, no package to install, no `.env` file to configure, and no database server to start. SQLite is accessed through Python's standard library.
+
+### Fastest path: open the committed dashboard
+
+From the repository root:
+
+```bash
+python3 -m http.server 8000 --directory docs
 ```
 
-This is intentionally a small batch pipeline. A cloud warehouse, orchestration platform, or machine-learning layer would add complexity without improving the business answer at this scale.
+Open [http://localhost:8000](http://localhost:8000) in a browser. Stop the server with `Ctrl+C`.
 
-## Run it locally
+The dashboard is fully static and can also be opened directly from `docs/index.html`. A local HTTP server is recommended because it matches normal browser behaviour.
 
-Requirements: Python 3.11+ and Make. There are no packages to install.
+### Rebuild everything from source
 
 ```bash
 make setup
@@ -96,54 +92,141 @@ make test
 python3 -m http.server 8000 --directory docs
 ```
 
-Then open [http://localhost:8000](http://localhost:8000). The dashboard also works by opening `docs/index.html` directly.
+`make setup` regenerates the synthetic CSV inputs, validates and rebuilds the SQLite warehouse, exports the dashboard dataset, and refreshes the reporting outputs. On success, the build reports:
 
-Useful commands:
+```text
+Generated 23,259 deterministic synthetic rows across 8 CSV files.
+Validated and loaded 23,259 rows into hyperpure_ops.db.
+Exported dashboard data: order_lines=13,855, receipts=3,225, waste_groups=172.
+Exported executive memo, KPI snapshot, action queue, and supplier scorecard.
+```
+
+### Useful commands
 
 | Command | Purpose |
 |---|---|
-| `make setup` | Generate data, build the warehouse, dashboard extract, and report |
-| `make test` | Run integrity, reproducibility, incident, and output-safety tests |
-| `make check` | Rebuild everything and run the complete test suite |
-| `make clean` | Remove only explicitly listed, reproducible artifacts |
+| `make setup` | Run the complete data → warehouse → dashboard → report build |
+| `make data` | Regenerate all deterministic synthetic CSV inputs |
+| `make warehouse` | Validate the inputs and atomically rebuild SQLite |
+| `make dashboard` | Refresh `docs/data.js` for the browser dashboard |
+| `make report` | Refresh the decision memo and CSV handoffs |
+| `make test` | Run reproducibility, integrity, metric, incident, and output-safety tests |
+| `make check` | Rebuild everything and run the entire test suite |
+| `make clean` | Remove only explicitly listed artifacts that can be reproduced |
 
-## Repository map
+## Basic product workflow
+
+An operations lead uses the dashboard in five steps:
+
+1. **Set the scope** — choose a date range, warehouse, and category.
+2. **Read the scorecard** — check OTIF and fill rate alongside revenue, margin, value at risk, and waste.
+3. **Diagnose the gap** — inspect the weekly trend, warehouse comparison, and failure-reason breakdown.
+4. **Prioritise the response** — use the action queue to rank service and cash-impact opportunities together.
+5. **Assign the follow-up** — take the recommended next move and supplier watchlist into the weekly operating review.
+
+The dashboard never silently claims causation. Its recommendations are transparent rules designed to identify where a human investigation should begin.
+
+## How the pipeline works
+
+```mermaid
+flowchart LR
+    A[Python data generator] --> B[8 synthetic CSV sources]
+    B --> C[Schema and business-rule validation]
+    C --> D[(SQLite warehouse)]
+    D --> E[SQL views and analytical marts]
+    E --> F[Offline dashboard extract]
+    E --> G[Executive decision memo]
+    E --> H[CSV action handoffs]
+    F --> I[Interactive control tower]
+```
+
+1. `src/generate_data.py` creates a reproducible six-month operating dataset and records the row counts and data boundary in `data/raw/manifest.json`.
+2. `src/build_warehouse.py` validates file schemas, types, relationships, business rules, and foreign keys before atomically replacing the SQLite database.
+3. `sql/02_marts.sql` creates reusable order-line, daily-operations, supplier-performance, waste, and action-queue views.
+4. `src/export_dashboard.py` exports a compact JavaScript data payload so the dashboard works without an API or external library.
+5. `src/export_report.py` produces the executive memo, KPI snapshot, ranked action queue, and supplier scorecard.
+
+## Metrics in the product
+
+| Metric | Definition | Decision supported |
+|---|---|---|
+| Line OTIF | Lines delivered on or before promise date **and** fulfilled in full ÷ all lines | Is the customer promise being met? |
+| Unit fill rate | Fulfilled units ÷ ordered units | Is inventory available? |
+| Delivered revenue | Fulfilled quantity × selling price | How much demand was fulfilled? |
+| Unfulfilled value | Ordered value − delivered value | Where is the demand-loss proxy concentrated? |
+| Gross margin | Gross profit ÷ delivered revenue | Can a recovery action remain margin-aware? |
+| Waste rate | Disposed units ÷ accepted inbound units | Where is inventory loss disproportionate? |
+| Supplier on-time | Receipts received by expected date ÷ all receipts | Is inbound delivery reliable? |
+| Acceptance fill | Accepted units ÷ ordered procurement units | Is the supplier complete and quality-compliant? |
+
+The 95% OTIF, 98% fill-rate, and 1% waste thresholds are illustrative operating benchmarks, not claimed targets for any real company. See the [metric dictionary](docs/data_dictionary.md) for table grains and formal definitions.
+
+## Technology stack
+
+| Layer | Technology | Responsibility |
+|---|---|---|
+| Data generation | Python 3.11+ standard library | Deterministic operational records and a machine-readable manifest |
+| Data quality | Python + SQLite constraints | CSV contracts, value checks, relationships, foreign keys, and atomic builds |
+| Analytical warehouse | SQLite | Portable relational storage with no service dependency |
+| Transformation | SQL | Joins, CTEs, views, aggregations, window functions, KPI contracts, and ranked marts |
+| Product UI | HTML5, CSS3, Vanilla JavaScript, SVG | Responsive filters, scorecards, charts, insights, and decision tables |
+| Reporting | Python + SQL | Markdown decision memo and operational CSV exports |
+| Testing | `unittest` | Reproducibility, integrity, metrics, planted incidents, and published-output safety |
+| Automation | GNU Make + GitHub Actions | One-command local workflow and read-only CI verification |
+
+## Project structure
 
 ```text
 .
-├── data/raw/                  # Generated CSV inputs (git-ignored)
-├── docs/                      # Offline dashboard and metric dictionary
-├── reports/                   # Decision memo and CSV handoffs
-├── sql/                       # Schema, marts, and analyst-facing SQL queries
-├── src/                       # Generation, validation, warehouse, and export code
-├── tests/                     # Standard-library integration tests
-├── warehouse/                 # Rebuildable SQLite database (git-ignored)
-├── Makefile                   # One-command workflow
-└── SECURITY.md                # Data and security boundary
+├── data/raw/                  # Generated CSV inputs and committed manifest
+├── docs/                      # Offline dashboard, screenshots, and metric dictionary
+├── reports/                   # Decision memo, KPI snapshot, and CSV action handoffs
+├── sql/                       # Schema, analytical marts, and example analysis queries
+├── src/                       # Generation, validation, warehouse, and export modules
+├── tests/                     # End-to-end standard-library test suite
+├── warehouse/                 # Rebuildable local SQLite database
+├── Makefile                   # Development and build commands
+└── SECURITY.md                # Data, privacy, and runtime boundaries
 ```
 
-Start with these files:
-
-1. [`reports/executive_summary.md`](reports/executive_summary.md) — the business conclusion.
-2. [`docs/index.html`](docs/index.html) — the interactive decision view.
-3. [`sql/03_analysis.sql`](sql/03_analysis.sql) — the core analytical SQL.
-4. [`src/build_warehouse.py`](src/build_warehouse.py) — validation and safe warehouse build.
-5. [`docs/data_dictionary.md`](docs/data_dictionary.md) — grain and metric definitions.
-
-## Metric choices
-
-- **Line OTIF** succeeds only when an order is delivered on/before its promise date **and** that line is fulfilled in full.
-- **Unfulfilled value** is ordered value minus delivered value. It is a demand-loss proxy, not booked revenue.
-- **Waste rate** is disposed units divided by accepted inbound units.
-- **Acceptance fill** is received units minus rejected units, divided by ordered procurement units.
-
-The 95% OTIF, 98% fill-rate, and 1% waste thresholds are illustrative working benchmarks. They are not claimed Hyperpure targets. Full definitions are in the [data dictionary](docs/data_dictionary.md).
+Good entry points are [`docs/index.html`](docs/index.html) for the product, [`sql/03_analysis.sql`](sql/03_analysis.sql) for the analytical questions, and [`src/build_warehouse.py`](src/build_warehouse.py) for the data-quality workflow.
 
 ## Scope and limitations
 
-- Planted incidents make the dataset useful for demonstrating diagnosis; they do not estimate real company performance.
-- Order-level failure reasons are inherited by lines. A production system should capture line-level reason codes where possible.
-- The protected-value scenario is transparent arithmetic, not a forecast.
-- Recommended actions require validation with procurement, warehouse, quality, and category owners before execution.
+### In scope
+
+- A local, reproducible batch analytics workflow for six months of synthetic food-supply operations
+- Service, availability, margin, inbound reliability, quality acceptance, and waste diagnostics
+- Date, warehouse, and category exploration across four warehouses and eight categories
+- Transparent rule-based prioritisation and decision-support outputs
+- A dependency-free product demo that can be rebuilt and reviewed offline
+
+### Not in scope
+
+- **Real company performance:** planted incidents demonstrate analytical diagnosis; they do not estimate any real business's operations.
+- **Production ingestion:** there are no ERP/WMS/TMS connectors, streaming events, scheduled refreshes, or incremental loads.
+- **Multi-user application features:** there is no authentication, role-based access, server API, alerting, collaboration, or action write-back.
+- **Causal or predictive modelling:** the product does not prove root cause, forecast demand, optimise inventory, or estimate future savings.
+- **Line-level root-cause precision:** failure reasons are currently inherited from the order; a production implementation should capture reason codes at order-line or event level.
+- **Forecasted value:** protected value is transparent scenario arithmetic—30% of unfulfilled value plus 20% of waste cost—not a financial forecast.
+- **Large-scale browser serving:** the demo ships its analytical extract to the browser; a production-scale version should serve pre-aggregated data through a governed API or BI layer.
+
+Recommended actions should be validated with procurement, warehouse, quality, inventory, and category owners before execution.
+
+## Testing and reproducibility
+
+```bash
+make check
+```
+
+The test suite verifies that:
+
+- the generated dataset is byte-for-byte deterministic;
+- manifest counts match the rows loaded into SQLite;
+- foreign keys and metric contracts remain valid;
+- the planted service incidents remain analytically detectable;
+- the dashboard and handoff artifacts are safe, present, and reproducible.
+
+CI rebuilds the complete project with read-only repository permissions and fails if committed analytical outputs drift from a fresh build.
 
 Licensed under the [MIT License](LICENSE).
